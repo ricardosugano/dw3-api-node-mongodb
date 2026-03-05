@@ -1,7 +1,7 @@
 //importando o service
 import gameService from "../services/gameService.js";
 //importando o ObjectId do MongoDB para validar o id
-import {objectid} from "mongodb";
+import {ObjectId} from "mongodb";
 
 //Funçao para tratar a requisiçao de listar os jogos
 const getAllGames = async (req, res) =>{
