@@ -1,10 +1,10 @@
 //importando o Model
 import Game from "../models/Games.js";
 
-class gameService{
+class gameService {
     // metodo (servio) para buscar todos os registro no banco
     // funções assincronas são nao bloqueantes
-    async getAll(){ // funçoes asincronas são não bloqueates
+    async getAll(){ // funçoes assincronas são não bloqueates
         try{ // try trata o sucesso
             const games = await Game.find(); // .find é motodo do mongoose para viscar reigistro no bd
             return games;
@@ -28,5 +28,30 @@ class gameService{
             console.log(error)
         }
     }
+    //método para excluir um jogo
+    async delete(id){
+        try{
+            //excluindo o jogo pelo id
+            await Game.findByIdAndDelete(id) 
+            console.log(`game com a id: ${id} foi deletado.`)
+        } catch (error){
+            console.log(error)
+        }
+    }
+    //metodo para alterar um jogo
+    async update(id, title, platform, year, price) {
+         try{
+             await Game.findByIdAndUpdate(id, {
+                 title,
+                 platform,
+                    year,
+                    price
+             })
+                console.log(`game com a id: ${id} foi atualizado.`)
+            } catch (error){
+                console.log(error)
+}}
 }
-export default new gameService(); // exportando a classe
+
+//exportando a classe
+export default new gameService()
