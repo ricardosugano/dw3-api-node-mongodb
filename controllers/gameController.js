@@ -19,8 +19,8 @@ const createGame = async(req, res) => {
     try{
         //Desestruturação
         // coletadno os dados do corpo da requisição
-        const {title, platform, year, price} = req.body
-        await gameService.Create(title, platform, year, price)
+        const {title, year, price, descriptions} = req.body
+        await gameService.Create(title, year, price, descriptions)
         //res.sendStatus(201) - usado para enviar apenas o status
         res.status(201).json({message: 'O jogo foi cadastrado com sucesso!'})
         // cod. 201 - CREATE - Um novo recurso foi criado no servidor
@@ -56,13 +56,36 @@ const updateGame = async (req, res) => {
         const {id} = req.params.id
 
         if(!objectid.isValid(id)){
-            const {title, platform, year, price} = req.body
-            await gameService.update(id, title, platform, year, price)
-            res.status(200).json({message: 'O jogo foi atualizado com sucesso!'})
+            const {title, year, price, descriptions} = req.body
+            const game = await gameService.update(id, title, year, price, descriptions)
+            res.status(200).json({message: 'O jogo foi atualizado com sucesso!', game: game})
         }else{
             res.status(400).json({error: 'Ocorreu um erro na validação da ID'})
         }
 
+    }catch (error) {
+        console.log(error)
+        res.status(500).json({ error: 'Erro interno do servidor.'})
+    }
+}
+
+//função para buscar um jogo único
+const getOneGame = async (req, res) => {
+    try{    
+        const {id} = req.params.id
+        if (!ObjectId.isValid(req.params.id)){
+            const game = await gameService.getById(id)
+            //verificando se o jogo existe
+            if(!game){ //se o jogo não existir, retornará um erro 404
+                res.status(404).json({error: 'Jogo não encontrado'})
+            } else { //jogo encontrado
+                res.status(200).json({game: game})
+               
+            }
+            }else{
+                res.status(400).json({error: 'ID inválida'})
+                // cod 400 - Bad Request - A requisição não pôde ser entendida ou foi malformada.
+        }
     }catch (error) {
         console.log(error)
         res.status(500).json({ error: 'Erro interno do servidor.'})
