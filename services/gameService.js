@@ -41,17 +41,29 @@ class gameService {
     //metodo para alterar um jogo
     async update(id, title, platform, year, price) {
          try{
-             await Game.findByIdAndUpdate(id, {
-                 title,
-                 platform,
-                    year,
-                    price
-             })
+            const updatedGame = await Game.findByIdAndUpdate(id, {
+                title,
+                platform,
+                year,
+                price
+             },
+
+             {new: true} // opção para retornar o documento atualizado         
+            )
                 console.log(`game com a id: ${id} foi atualizado.`)
+                return updatedGame
             } catch (error){
                 console.log(error)
+}}
+//metodo para buscar um jogo único
+async getOneGame(id){
+    try{
+        const game = await Game.findOne({ _id: id }) // .findOne é um metodo do mongoose para buscar um registro no BD, passando o id como parametro
+        return game
+}   catch (error){
+        console.log(error)
 }}
 }
 
 //exportando a classe
-export default new gameService()
+export default new gameService();
