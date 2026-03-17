@@ -44,9 +44,15 @@ class gameService {
          try{
             const updatedGame = await Game.findByIdAndUpdate(id, {
                 title,
+<<<<<<< HEAD
                 year,
                 price,
                 descriptions
+=======
+                platform,
+                year,
+                price
+>>>>>>> eb014d2f0dec6c0afd45d294995737331e262ca6
              },
 
              {new: true} // opção para retornar o documento atualizado         

@@ -56,9 +56,9 @@ const updateGame = async (req, res) => {
         const {id} = req.params.id
 
         if(!objectid.isValid(id)){
-            const {title, year, price, descriptions} = req.body
-            const game = await gameService.update(id, title, year, price, descriptions)
-            res.status(200).json({message: 'O jogo foi atualizado com sucesso!', game: game})
+            const {title, platform, year, price} = req.body
+            await gameService.update(id, title, platform, year, price)
+            res.status(200).json({message: 'O jogo foi atualizado com sucesso!'})
         }else{
             res.status(400).json({error: 'Ocorreu um erro na validação da ID'})
         }
